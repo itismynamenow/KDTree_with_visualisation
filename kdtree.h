@@ -3,6 +3,8 @@
 #include <vector>
 #include <algorithm>
 #include <limits>
+#include <cmath>
+#include <iostream>
 
 #define DOUBLES vector<double>
 #define MAX_DOUBLE std::numeric_limits<double>::max
@@ -42,15 +44,15 @@ public:
     void clear();
 
     KDNode *rootNode;
-    vector<DOUBLES> dropedVolumes;
+    vector<DOUBLES> dropedVolumes;///< allows visalisation of dropped during nearest neighbor search subtrees. Holds data in weird form - first n max values for each n dimensions then n min values and then same for next "volume"
 protected:
 
     KDNode* buildSubtree(vector<DOUBLES> points, int currentDimension);
     void searchForClosestNode(KDNode *node,const DOUBLES &point, DOUBLES maxBound, DOUBLES minBound, KDNode &bestNode, double &bestDistance);
-    KDNode *lookForClosestNode(KDNode *node, DOUBLES point);
     double manhattanDistance(const DOUBLES &a, const DOUBLES &b);
     double euclidianDistance(const DOUBLES &a, const DOUBLES &b);
     void deleteNodeRecursivly(KDNode *node);
+    //Finds distance between given point and "bounding volume" (that's how I named values that represent dropped subtrees)
     double distanceToBoundingVolume(const DOUBLES &maxBound, const DOUBLES &minBound, const DOUBLES &point);
 };
 

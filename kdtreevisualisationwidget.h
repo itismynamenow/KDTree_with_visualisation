@@ -26,7 +26,6 @@ protected:
     QPoint closestPoint;
     bool referencePointSet = false;
     bool closestPointFound = false;
-    QTimer timer;
     KDTree kdTree;
 };
 

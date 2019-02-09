@@ -3,8 +3,6 @@
 KDTreeVisualisationWidget::KDTreeVisualisationWidget()
 {
     this->setMinimumSize(800,800);
-    timer.start(30);
-//    connect(&timer,SIGNAL(timeout()),this,SLOT(update()));
 }
 
 void KDTreeVisualisationWidget::reset()

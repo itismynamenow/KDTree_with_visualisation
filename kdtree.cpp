@@ -1,6 +1,4 @@
 #include "kdtree.h"
-#include <cmath>
-#include <iostream>
 
 KDTree::KDTree()
 {
@@ -45,9 +43,10 @@ KDNode *KDTree::buildSubtree(vector<DOUBLES> points, int currentDimension)
         return nullptr;
     }
     KDNode *currentNode = new KDNode();
-    //Find current dimension and sort points according to it
+    //Find current dimension and then sort points according to it
     int maxDimension = points[0].size();
     currentDimension = currentDimension % maxDimension;
+
     if(points.size() == 1){
         currentNode->setPoints(points[0]);
         currentNode->setDimension(currentDimension);
@@ -128,37 +127,6 @@ double KDTree::euclidianDistance(const DOUBLES &a, const DOUBLES &b)
         distance += pow(a[i]-b[i],2);
     }
     return sqrt(distance);
-}
-
-//Incorrect but fast way to find nearest neighobr
-KDNode *KDTree::lookForClosestNode(KDNode *node, DOUBLES point)
-{
-    double distance = manhattanDistance(node->point,point);
-    double leftDistance = -1;
-    double rightDistance = -1;
-    KDNode * closestNode = nullptr;
-    if(node->left && node->right){
-        leftDistance = manhattanDistance(node->left->point,point);
-        rightDistance = manhattanDistance(node->right->point,point);
-        if(leftDistance < rightDistance){
-            closestNode = lookForClosestNode(node->left, point);
-        }else{
-            closestNode = lookForClosestNode(node->right, point);
-        }
-    }else if(node->left){
-        closestNode = lookForClosestNode(node->left, point);
-    }else if(node->right){
-        closestNode = lookForClosestNode(node->right, point);
-    }
-
-    if(closestNode){
-        double closestNodeDistance = manhattanDistance(closestNode->point,point);
-        if(distance < closestNodeDistance) return node;
-        else return closestNode;
-    }else{
-        return node;
-    }
-
 }
 
 void KDTree::deleteNodeRecursivly(KDNode *node)
