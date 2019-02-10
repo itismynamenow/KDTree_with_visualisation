@@ -50,6 +50,7 @@ public:
 protected:
 
     KDNode* buildSubtree(vector<DOUBLES> points, int currentDimension);
+    KDNode* buildSubtree(vector<vector<double> > &points, int start, int end, int currentDimension);
     void searchForClosestNode(KDNode *node,const DOUBLES &point, DOUBLES maxBound, DOUBLES minBound, KDNode &bestNode, double &bestDistance);
     double manhattanDistance(const DOUBLES &a, const DOUBLES &b);
     double euclidianDistance(const DOUBLES &a, const DOUBLES &b);

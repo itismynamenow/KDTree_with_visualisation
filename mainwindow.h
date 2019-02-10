@@ -16,7 +16,7 @@ private:
     QGridLayout mainLayout;
     QPushButton clearButton{"Clear"};
     QPushButton randomButton{"Random"};
-    QLineEdit lineEdit{"25"};
+    QLineEdit lineEdit{"2222"};
     KDTreeVisualisationWidget kdWidget;
     QHBoxLayout inputPanelLayout;
     QIntValidator inputValidator{1, 9999};

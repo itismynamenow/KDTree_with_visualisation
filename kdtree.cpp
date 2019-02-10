@@ -29,7 +29,9 @@ void KDTree::setNewPoints(vector<DOUBLES> points)
     high_resolution_clock::time_point t1 = high_resolution_clock::now();
     deleteNodeRecursivly(rootNode);
     high_resolution_clock::time_point t3 = high_resolution_clock::now();
-    rootNode = buildSubtree(points,0);
+//    rootNode = buildSubtree(points,0);
+    vector<DOUBLES> localPoints = points;
+    rootNode = buildSubtree(localPoints,0,localPoints.size(),0);
     high_resolution_clock::time_point t2 = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>( t2 - t1 ).count();
 
@@ -60,10 +62,15 @@ KDNode *KDTree::buildSubtree(vector<DOUBLES> points, int currentDimension)
         return currentNode;
     }
 
-    sort(points.begin(),points.end(),[currentDimension](const DOUBLES &a,const DOUBLES &b){return b[currentDimension]>a[currentDimension];});
+    int medianIndex = points.size()/2;
+
+//    sort(points.begin(),points.end(),[currentDimension](const DOUBLES &a,const DOUBLES &b){return b[currentDimension]>a[currentDimension];});
+    nth_element(points.begin(),
+                points.begin()+medianIndex,
+                points.end(),
+                [currentDimension](const DOUBLES &a,const DOUBLES &b){return b[currentDimension]>a[currentDimension];});
 
     //Find middle element and turn its position into subtree root
-    int medianIndex = points.size()/2;
     currentNode->setPoints(points[medianIndex]);
     currentNode->setDimension(currentDimension);
 
@@ -75,6 +82,45 @@ KDNode *KDTree::buildSubtree(vector<DOUBLES> points, int currentDimension)
     if(medianIndex < points.size()-1){
         vector<DOUBLES> rightPoints(points.begin()+medianIndex+1,points.end());
         currentNode->right = buildSubtree(rightPoints, currentDimension+1);
+    }
+
+    return currentNode;
+}
+
+KDNode *KDTree::buildSubtree(vector<vector<double> > &points, int start, int end, int currentDimension)
+{
+    if(points.size() == 0 || end-start == 0){
+        return nullptr;
+    }
+    KDNode *currentNode = new KDNode();
+    //Find current dimension and then sort points according to it
+    int maxDimension = points[0].size();
+    currentDimension = currentDimension % maxDimension;
+
+    if(end - start == 1){
+        currentNode->setPoints(points[start]);
+        currentNode->setDimension(currentDimension);
+        return currentNode;
+    }
+
+    int median = (end+start)/2;
+
+//    sort(points.begin(),points.end(),[currentDimension](const DOUBLES &a,const DOUBLES &b){return b[currentDimension]>a[currentDimension];});
+    nth_element(points.begin() + start,
+                points.begin() + median,
+                points.begin() + end,
+                [currentDimension](const DOUBLES &a,const DOUBLES &b){return b[currentDimension]>a[currentDimension];});
+
+    //Find middle element and turn its position into subtree root
+    currentNode->setPoints(points[median]);
+    currentNode->setDimension(currentDimension);
+
+    //Build subtrees for child nodes if possible
+    if(median > start){
+        currentNode->left = buildSubtree(points, start, median, currentDimension+1);
+    }
+    if(median < end-1){
+        currentNode->right = buildSubtree(points, median+1, end, currentDimension+1);
     }
 
     return currentNode;

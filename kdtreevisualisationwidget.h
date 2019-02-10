@@ -14,7 +14,7 @@ class KDTreeVisualisationWidget: public QWidget
     Q_OBJECT
 public:
     KDTreeVisualisationWidget();
-    void setPoints(vector<QPoint> &points);
+    void setPoints(vector<QPoint> points);
 public slots:
     void reset();
 protected:

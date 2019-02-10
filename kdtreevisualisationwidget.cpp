@@ -5,7 +5,7 @@ KDTreeVisualisationWidget::KDTreeVisualisationWidget()
     this->setMinimumSize(800,800);
 }
 
-void KDTreeVisualisationWidget::setPoints(vector<QPoint> &points)
+void KDTreeVisualisationWidget::setPoints(vector<QPoint> points)
 {
     this->reset();
     this->points = points;
