@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS_RELEASE *= -O3
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

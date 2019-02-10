@@ -62,8 +62,8 @@ void KDTreeVisualisationWidget::paintEvent(QPaintEvent *event)
         drawSubtree(kdTree.rootNode, &painter,0 , 0, this->size().width(), 0, this->size().height());
     }
     for(QPoint point: points){
-        painter.setBrush(QBrush(Qt::white));
-        painter.drawEllipse(point,7,7);
+        painter.setBrush(QBrush(Qt::yellow));
+        painter.drawEllipse(point,5,5);
     }
     if(referencePointSet){
         painter.setBrush(QBrush(Qt::green));

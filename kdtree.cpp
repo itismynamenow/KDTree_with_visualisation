@@ -26,8 +26,15 @@ KDNode KDTree::getNearestNode(DOUBLES point)
 
 void KDTree::setNewPoints(vector<DOUBLES> points)
 {
+    high_resolution_clock::time_point t1 = high_resolution_clock::now();
     deleteNodeRecursivly(rootNode);
+    high_resolution_clock::time_point t3 = high_resolution_clock::now();
     rootNode = buildSubtree(points,0);
+    high_resolution_clock::time_point t2 = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>( t2 - t1 ).count();
+
+    cout << "KD tree with "<<points.size()<<" node build in "<<duration<<" microseconds"<<endl;
+    cout << "Node deletion took "<< duration_cast<microseconds>( t3 - t1 ).count()<<" microseconds"<<endl;
 }
 
 void KDTree::clear()

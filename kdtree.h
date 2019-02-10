@@ -5,12 +5,14 @@
 #include <limits>
 #include <cmath>
 #include <iostream>
+#include <chrono>
 
 #define DOUBLES vector<double>
 #define MAX_DOUBLE std::numeric_limits<double>::max
 #define MIN_DOUBLE std::numeric_limits<double>::min
 
 using namespace std;
+using namespace std::chrono;
 
 struct KDNode{
     KDNode *left, *right;

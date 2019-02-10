@@ -19,7 +19,7 @@ private:
     QLineEdit lineEdit{"25"};
     KDTreeVisualisationWidget kdWidget;
     QHBoxLayout inputPanelLayout;
-    QIntValidator inputValidator{1, 2000};
+    QIntValidator inputValidator{1, 9999};
 private slots:
     void setRandomData();
 };
