@@ -5,6 +5,14 @@ KDTreeVisualisationWidget::KDTreeVisualisationWidget()
     this->setMinimumSize(800,800);
 }
 
+void KDTreeVisualisationWidget::setPoints(vector<QPoint> &points)
+{
+    this->reset();
+    this->points = points;
+    this->sendPointsToKDTree();
+    this->update();
+}
+
 void KDTreeVisualisationWidget::reset()
 {
     points.clear();
@@ -23,14 +31,7 @@ void KDTreeVisualisationWidget::mousePressEvent(QMouseEvent *mouseEvent)
         callUpdate = true;
     }else if(mouseEvent->buttons() == Qt::LeftButton){
         points.push_back(mouseEvent->pos());
-
-        vector<vector<double>> pointVector;
-        for(QPoint point: points){
-            pointVector.push_back(vector<double>{point.x(),point.y()});
-        }
-
-        kdTree.setNewPoints(pointVector);
-
+        this->sendPointsToKDTree();
         callUpdate = true;
     }
     if(kdTree.rootNode && referencePointSet){
@@ -74,6 +75,16 @@ void KDTreeVisualisationWidget::paintEvent(QPaintEvent *event)
     }
 
 
+}
+
+void KDTreeVisualisationWidget::sendPointsToKDTree()
+{
+    vector<vector<double>> pointVector;
+    for(QPoint point: points){
+        pointVector.push_back(vector<double>{point.x(),point.y()});
+    }
+
+    kdTree.setNewPoints(pointVector);
 }
 
 void KDTreeVisualisationWidget::drawSubtree(KDNode *node, QPainter *painter, int dimension, int minX, int maxX, int minY, int maxY)

@@ -1,6 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include <ctime>
 #include <QtWidgets>
 #include "kdtreevisualisationwidget.h"
 
@@ -15,7 +15,13 @@ private:
 
     QGridLayout mainLayout;
     QPushButton clearButton{"Clear"};
+    QPushButton randomButton{"Random"};
+    QLineEdit lineEdit{"25"};
     KDTreeVisualisationWidget kdWidget;
+    QHBoxLayout inputPanelLayout;
+    QIntValidator inputValidator{1, 2000};
+private slots:
+    void setRandomData();
 };
 
 #endif // MAINWINDOW_H
