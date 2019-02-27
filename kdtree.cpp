@@ -30,13 +30,15 @@ void KDTree::setNewPoints(vector<DOUBLES> points)
     deleteNodeRecursivly(rootNode);
     high_resolution_clock::time_point t3 = high_resolution_clock::now();
 //    rootNode = buildSubtree(points,0);
-    vector<DOUBLES> localPoints = points;
-    rootNode = buildSubtree(localPoints,0,localPoints.size(),0);
+//    vector<DOUBLES> localPoints = points;
+    executionTime = 0;
+    rootNode = buildSubtree(points,0,points.size(),0);
     high_resolution_clock::time_point t2 = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>( t2 - t1 ).count();
 
     cout << "KD tree with "<<points.size()<<" node build in "<<duration<<" microseconds"<<endl;
     cout << "Node deletion took "<< duration_cast<microseconds>( t3 - t1 ).count()<<" microseconds"<<endl;
+    cout << "nth_element took "<<executionTime<<" microseconds"<<endl;
 }
 
 void KDTree::clear()
@@ -64,7 +66,6 @@ KDNode *KDTree::buildSubtree(vector<DOUBLES> points, int currentDimension)
 
     int medianIndex = points.size()/2;
 
-//    sort(points.begin(),points.end(),[currentDimension](const DOUBLES &a,const DOUBLES &b){return b[currentDimension]>a[currentDimension];});
     nth_element(points.begin(),
                 points.begin()+medianIndex,
                 points.end(),
@@ -104,12 +105,13 @@ KDNode *KDTree::buildSubtree(vector<vector<double> > &points, int start, int end
     }
 
     int median = (end+start)/2;
-
-//    sort(points.begin(),points.end(),[currentDimension](const DOUBLES &a,const DOUBLES &b){return b[currentDimension]>a[currentDimension];});
+//    high_resolution_clock::time_point t1 = high_resolution_clock::now();
     nth_element(points.begin() + start,
                 points.begin() + median,
                 points.begin() + end,
                 [currentDimension](const DOUBLES &a,const DOUBLES &b){return b[currentDimension]>a[currentDimension];});
+//    high_resolution_clock::time_point t2 = high_resolution_clock::now();
+//    executionTime += duration_cast<microseconds>( t2 - t1 ).count();
 
     //Find middle element and turn its position into subtree root
     currentNode->setPoints(points[median]);

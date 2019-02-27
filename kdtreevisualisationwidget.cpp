@@ -19,6 +19,7 @@ void KDTreeVisualisationWidget::reset()
     kdTree.clear();
     this->update();
     closestPointFound = false;
+    referencePointSet = false;
 }
 
 void KDTreeVisualisationWidget::mousePressEvent(QMouseEvent *mouseEvent)
@@ -61,10 +62,22 @@ void KDTreeVisualisationWidget::paintEvent(QPaintEvent *event)
     if(kdTree.rootNode){
         drawSubtree(kdTree.rootNode, &painter,0 , 0, this->size().width(), 0, this->size().height());
     }
+
+//    QPainterPath path;
+//    path.setFillRule(Qt::WindingFill);
+//    painter.setBrush(QBrush(Qt::yellow));
+//    for(QPoint point: points){
+//        path.addEllipse(point,5,5);
+//    }
+//    painter.drawPath(path);
+    high_resolution_clock::time_point t1 = high_resolution_clock::now();
     for(QPoint point: points){
         painter.setBrush(QBrush(Qt::yellow));
         painter.drawEllipse(point,5,5);
     }
+    high_resolution_clock::time_point t2 = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>( t2 - t1 ).count();
+    cout<<" All point drawn in "<<duration<<" macroseconds"<<endl;
     if(referencePointSet){
         painter.setBrush(QBrush(Qt::green));
         painter.drawEllipse(referencePoint,8,8);

@@ -57,6 +57,7 @@ protected:
     void deleteNodeRecursivly(KDNode *node);
     //Finds distance between given point and "bounding volume" (that's how I named values that represent dropped subtrees)
     double distanceToBoundingVolume(const DOUBLES &maxBound, const DOUBLES &minBound, const DOUBLES &point);
+    long long executionTime;
 };
 
 #endif // KDTREE_H

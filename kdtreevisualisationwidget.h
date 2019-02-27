@@ -6,8 +6,10 @@
 #include "kdtree.h"
 
 #include <iostream>
+#include <chrono>
 #include <vector>
 using namespace std;
+using namespace std::chrono;
 
 class KDTreeVisualisationWidget: public QWidget
 {
